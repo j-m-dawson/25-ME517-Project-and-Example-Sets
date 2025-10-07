@@ -1,0 +1,456 @@
+\documentclass[preprint,12pt,authoryear]{elsarticle}
+\input{instr-preamble}
+\input{instr-mathsymbols}
+\journal{ME517---Mechanics of Soft Materials}
+\setlength{\marginparwidth}{2cm}
+\begin{document}
+
+\include{Dawson-part2}
+
+\section*{Examples II: Kinetics, Constitutive Laws, and Viscoelasticity I}
+\label{PS2}
+
+\medskip
+\subsection*{2--1. \textbf{Balance of mass}}
+Local balance (or conservation) of mass states that
+\begin{equation}
+    \frac{\partial \rho}{\partial t} + \nabla_{\bm{x}} \cdot (\rho \bm{v}) = 0
+\end{equation}
+Using the product rule we can expand out the second term on the left hand side we get
+\begin{equation}
+    \frac{\partial \rho}{\partial t} + [\nabla_{\bm{x}} \rho \cdot \bm{v} + \rho (\nabla_{\bm{x}} \cdot \bm{v})] = 0
+\end{equation}
+Then apply the divergence in spherical coordinates, defined in Bower as $\nabla f = \bm{e_R}\frac{\partial f}{\partial R} + \bm{e_{\theta}}\frac{1}{R}\frac{\partial f}{\partial \theta} + \bm{e_{\phi}}\frac{1}{R\sin{\theta}}\frac{\partial f}{\partial \phi}$ for scalar functions and $\nabla \cdot \bm{v} \equiv \frac{\partial v_R}{\partial R} + 2\frac{v_R}{R} + \frac{1}{R}\frac{\partial v_{\theta}}{\partial \theta} + \frac{1}{R \sin{\theta}}\frac{\partial v_{\phi}}{\partial \phi} + \cot{\theta}\frac{v_{\theta}}{R}$ for vector functions, to get
+\begin{equation}
+    \frac{\partial \rho}{\partial t} + (\bm{e_r}\frac{\partial \rho}{\partial r} + \bm{e_{\theta}}\frac{1}{r}\frac{\partial \rho}{\partial \theta} + \bm{e_{\phi}}\frac{1}{r\sin{\theta}}\frac{\partial \rho}{\partial \phi})\cdot \bm{v} + \rho(\frac{\partial v_r}{\partial r} + 2\frac{v_r}{r} + \frac{1}{r}\frac{\partial v_{\theta}}{\partial \theta} + \frac{1}{r \sin{\theta}}\frac{\partial v_{\phi}}{\partial \phi} + \cot{\theta}\frac{v_{\theta}}{r})= 0
+\end{equation}
+Note that $\bm{v} = v_r \bm{e_r}$ in index notation and take the dot product
+\begin{equation}
+    \frac{\partial \rho}{\partial t} + (\frac{\partial \rho}{\partial r}v_r) + \rho(\frac{\partial v_r}{\partial r} + 2\frac{v_r}{r} + \frac{1}{r}\frac{\partial v_{\theta}}{\partial \theta} + \frac{1}{r \sin{\theta}}\frac{\partial v_{\phi}}{\partial \phi} + \cot{\theta}\frac{v_{\theta}}{r})= 0
+\end{equation}
+Then since our system is spherically symmetric, our velocity $\bm{v}$ will not change in the $\theta$ or $\phi$ directions. This means that $ \frac{\partial v_{\theta}}{\partial \theta}= \frac{\partial v_{\phi}}{\partial \phi} = 0$. In addition, the expansion velocity is only in the $\bm{e_r}$ direction, as defined in the problem by $\bm{v}(r,t) = v_r \bm{e_r}$, so $v_{\theta} = v_{\phi} =0$ as well.
+\begin{equation}
+    \frac{\partial \rho}{\partial t} + (\frac{\partial \rho}{\partial r}v_r) + \rho(\frac{\partial v_r}{\partial r} + 2\frac{v_r}{r})= 0
+\end{equation}
+Where we can pull out a $1/r$ from the third term to get
+\begin{equation}
+    \frac{\partial \rho}{\partial t} + \frac{\partial \rho}{\partial r}v_r + \frac{\rho}{r}(r\frac{\partial v_r}{\partial r} + 2v_r)= 0
+\end{equation}
+And then write our derivatives in comma notation to get
+\begin{equation}
+    \rho_{,t} + \rho_{,r}v_r + \frac{\rho}{r}(2v_r+rv_{r,r}) = 0
+\end{equation}
+\hspace*{\fill} $\bigstar$ \newline
+\medskip
+Then we can use this expression with the assumption of incompressibility. If a material is incompressible, $\frac{\partial \rho}{\partial t} = 0$ as the density of the material will not change. In addition, we note the problem states that we have a uniform density, so $\frac{\partial \rho}{\partial r} = 0$ as well. This gives us a simplified form of the conservation of mass expression just derived.
+\begin{equation}
+    \frac{\rho}{r}(2v_r+rv_{r,r}) = 0 \space \to \space 2v_r+rv_{r,r} = 0 \space \to \space v_r = \frac{-r}{2} \frac{\partial v_r}{\partial r}
+\end{equation}
+To solve this differential equation and therefore get an expression for our velocity $v_r(r,t)$ we separate then integrate.
+\begin{equation}
+    \frac{-2}{r} \partial r = \frac{1}{v_r} \partial v_r
+\end{equation}
+We integrate both sides from the initial to final state, or at least from the same initial and final state for each side based on their own variables. Specifically, we integrate across the material from the known boundary condition at the cavitation bubble surface to the location of interest. This is because we really need to get the $r$ dependence of $v_r$, since the starting position $R(t)$ will already include time dependence.
+\begin{equation}
+    \int_{r = R(t)}^{r = r} \frac{-2}{r} \partial r = \int_{v_r = \dot{R}(t)}^{v_r = v_r} \frac{1}{v_r} \partial v_r
+\end{equation}
+We are integrating across the material from the bubble wall to the point of interest, adding up the velocity dependent effects. Performing this integration we get
+\begin{equation}
+    -2\ln{r} \biggr\rvert_{R(t)}^{r} = \ln{v_r} \biggr\rvert_{\dot{R}(t)}^{v_r} \space \to \space -2(\ln{r} - \ln{R}) = \ln{v_r} - \ln{\dot{R}}
+\end{equation}
+Then do some rearrangement of the logarithms
+\begin{equation}
+    -2\ln{(r/R)} = \ln{(v_r / \dot{R})} \space \to \space \ln{(r/R)^2} = \ln{(v_r / \dot{R})} \space \to \space \frac{R^2}{r^2} = \frac{v_r}{\dot{R}}
+\end{equation}
+And rearrange to get our final expression
+\begin{equation}
+    v_r = v_r(r,t) = \frac{R^2 \dot{R}}{r^2}
+\end{equation}
+\hspace*{\fill} $\bigstar$
+
+
+\bigskip
+\subsection*{2--2. \textbf{Balance of momenta}}
+
+\medskip
+(a) Net force on the gel is from both the traction forces $\bm{F_t}$ of the surrounding water and body forces $\bm{F_b}$ from the weight of the gel.
+\begin{equation}
+    \bm{F_b} = \int_{\Omega}\bm{b} \space dV_{\bm{x}} \space ; \space \bm{F_t} = \int_{\partial \Omega_t}\bm{t} \space dA_{\bm{x}}
+\end{equation}
+ For simplicity, this problem will be done with the coordinate system shifted down to the center of the spherical gel. In addition, $\bm{e_1}$ will be defined to point out of the page. The assigned analogous $\bm{e_1} = \bm{x}$, $\bm{e_3} = \bm{y}$, and $\bm{e_2} = \bm{z}$ directions have been chosen for simplicity in later transformations to spherical coordinates.
+
+\includegraphics{Dawson-figures/coords-2.2.png}
+
+For the body forces, we can first get an expression for the position-dependent density of the gel. The density gradient is linear in the $\bm{e_2}$ direction with $\rho(x_2 = -R) = \rho_w/2$ and $\rho(x_2 = R) = 3\rho_w/2$. We can use these two points to get a linear expression for the density.
+\begin {equation}
+    \rho(\bm{x}) = \frac{\rho_w}{2 R}x_2 + \rho_w
+\end{equation}
+The body forces on the gel are $\bm{b} = \rho \bm{g}$. Since $\bm{g}$ points downward, this means the overall body forces on the gel will be $\bm{b} = \rho g \bm{e_3} = (\frac{\rho_w}{2 R}x_2 + \rho_w)g \bm{e_3}$. This is using the coordinate system deified in the image and at the start of this problem, with $\bm{e_3}$ pointing downwards.
+\begin{equation}
+    \bm{F_b} =  \int_{\Omega}\bm{b} \space dV_{\bm{x}} =\int_{\Omega}  (\frac{\rho_w}{2 R}x_2 + \rho_w)g \bm{e_3} \space dV_{\bm{x}} = g \bm{e_3} \int_{\Omega}  (\frac{\rho_w}{2 R}x_2 + \rho_w) \space dV_{\bm{x}}
+\end{equation}
+To integrate, we use spherical coordinates. Using the definitions below (from Mathematical Methods in the Physical Sciences by Mary L. Boas, 3rd edition) and the assignment of a right-handed $xyz$ coordinate system stated at the start of the problem, this gives us $x_1 = r\sin{\theta}\cos{\phi}$, $x_2 = r\cos{\theta}$, and $x_3 = r\sin{\theta}\sin{\phi}$.
+
+\includegraphics[scale=0.5]{Dawson-figures/boas-spherical.png}
+
+We also use that $dV = r^2 \sin{\theta}drd\theta d\phi$ to put the volume integral into spherical.
+\begin{equation}
+    \bm{F_b}=g\bm{e_3} \int_{\Omega}  (\frac{\rho_w}{2 R}(r\cos{\theta}) + \rho_w) \space r^2 \sin{\theta} \space drd\theta d\phi
+\end{equation}
+We can then distribute over the sum and separate out the integral into two terms. We also pull out additional constants and note that the volume integral is really a triple integral over each of the three integration variables.
+\begin{equation}
+    \bm{F_b} = \bm{e_3}g \left[ \frac{\rho_w}{2 R} \int_{r} \int_{\theta} \int_{\phi}r^3 \cos{\theta}\sin{\theta} \space drd\theta d\phi + \rho_w\int_{r} \int_{\theta} \int_{\phi} r^2 \sin{\theta} \space drd\theta d\phi \right]
+\end{equation}
+Then we can integrate over the volume of the spherical gel, further separating out each of our independent variables for integration. Our bounds for integration are $r=0$ to $R$, $\theta=0$ to $\pi$, and $\phi = 0$ to $2\pi$.
+\begin{equation}
+    \bm{F_b} = \bm{e_3}g \left[ \frac{\rho_w}{2 R} \int_{0}^{R} r^3 dr\int_{0}^{\pi} \cos{\theta}\sin{\theta} \space d\theta\int_{0}^{2\pi} d\phi  + \rho_w\int_{0}^{R} r^2 dr\int_{0}^{\pi}\sin{\theta} \space d\theta\int_{0}^{2\pi} d\phi\right]
+\end{equation}
+
+\begin{equation}
+    \bm{F_b} = \bm{e_3}g \left[ 0  + \rho_w \frac{R^3}{3}(2)(2\pi) \right] = \bm{e_3}g \left(\frac{4\pi}{3} \rho_w R^3 \right) = \frac{4}{3}\pi\rho_w g R^3 \bm{e_3}
+\end{equation}
+
+For the traction forces, we can first get an expression for the unit area vector $\bm{\hat{n}}$ of the sphere in cartesian coordinates. For our sphere, the unit normal $\bm{\hat{n}}$ points radially outward from the center of our shifted coordinate system and is at radial distance $R$ from the center of our coordinate system. This means we can write $\bm{\hat{n}}$ in the direction of our point from the center (simply the cartesian location) divided by radius $R$ (dividing by the magnitude to make this a unit vector), giving us the following expression for points on the surface of the gel.
+\begin{equation}
+    \bm{\hat{n}} = \frac{1}{R}(x_1\bm{e_1} + x_2\bm{e_2} + x_3\bm{e_3})
+\end{equation}
+From this, we can write the traction force specific to our problem in cartesian coordinates as $\bm{t} = -\rho_w g x_3 \hat{\bm{n}} = \frac{-\rho_w g x_3}{R}(x_1\bm{e_1} + x_2\bm{e_2} + x_3\bm{e_3})$ and put this into the integral for the total traction forces on the gel.
+\begin{equation}
+    \bm{F_t} = \int_{\partial \Omega_t}\bm{t} \space dA_{\bm{x}} = \int_{\partial \Omega_t} \frac{-\rho_w g}{R}x_3(x_1\bm{e_1} + x_2\bm{e_2} + x_3\bm{e_3}) \space dA_{\bm{x}}
+\end{equation}
+\begin{equation}
+    \bm{F_t} = \frac{-\rho_w g}{R} \left[ \bm{e_1} \int_{\partial \Omega_t}x_3x_1 dA_{\bm{x}} + \bm{e_2} \int_{\partial \Omega_t}x_3x_2 dA_{\bm{x}} + \bm{e_3} \int_{\partial \Omega_t}x_3x_3 dA_{\bm{x}} \right]
+\end{equation}
+We can evaluate our integrals in spherical coordinates using the same assignments as for the body force integral, but using $dA = r^2 \sin{\theta}d\theta d\phi$ to put the surface integral into spherical.
+\begin{equation}
+\begin{split}
+    \bm{F_t} = \frac{-\rho_w g}{R} \biggr[ \bm{e_1} \int_{\partial \Omega_t}r^4 \sin^3{\theta}\sin{\phi}\cos{\phi} \space d\theta d\phi  \\  + \bm{e_2} \int_{\partial \Omega_t} r^4 \sin^2{\theta}\cos{\theta}\sin{\phi} \space d\theta d\phi + \bm{e_3} \int_{\partial \Omega_t} r^4 \sin^3{\theta}\sin^2{\phi} \space d\theta d\phi \biggr]
+\end{split}
+\end{equation}
+The integral is performed at the surface with $r=R$ and with bounds for integration $\theta=0$ to $\pi$ and $\phi = 0$ to $2\pi$.
+\begin{equation}
+\begin{split}
+    \bm{F_t} = \frac{-\rho_w g R^4}{R} \biggr[ \bm{e_1} \int_{0}^{\pi} \sin^3{\theta} \space d\theta \int_{0}^{2\pi}\sin{\phi}\cos{\phi} \space d\phi \\
+    + \bm{e_2} \int_{0}^{\pi} \sin^2{\theta}\cos{\theta} \space d\theta\int_{0}^{2 \pi}\sin{\phi} \space d\phi + \bm{e_3} \int_{0}^{\pi}\sin^3{\theta} \space d\theta \int_{0}^{2\pi} \sin^2{\phi} \space d\phi \biggr]
+    \end{split}
+\end{equation}
+\begin{equation}
+    \bm{F_t} = -\rho_w g R^3 \left[ \bm{e_1} (0) + \bm{e_2} (0) + \bm{e_3} (4/3)(\pi) \right] = -\frac{4}{3}\pi\rho_w g R^3 \bm{e_3}
+\end{equation}
+Summing the contributions from body and traction forces, we get a net force as follows.
+\begin{equation}
+    \bm{F_{net}} = \bm{F_{b}} + \bm{F_{t}} = \frac{4}{3}\pi\rho_w g R^3 \bm{e_3} -\frac{4}{3}\pi\rho_w g R^3 \bm{e_3} = \bm{0}
+\end{equation}
+\hspace*{\fill} $\bigstar$
+
+Net moment on the gel is from both the traction forces $\bm{M_t}$ and body forces $\bm{M_b}$. The same simplified coordinate system will be used in calculating the net moment as was used for the net force, defined at the start.
+\begin{equation}
+    \bm{M_b} = \int_{\Omega}\bm{x} \times \bm{b} \space dV_{\bm{x}} \space ; \space \bm{M_t} = \int_{\partial \Omega_t} \bm{x} \times \bm{t} \space dA_{\bm{x}}
+\end{equation}
+For the body moment, we first perform the cross product with $\bm{b} = \rho g \bm{e_3}$ and $\bm{x} = x_1 \bm{e_1} + x_2 \bm{e_2} + x_3 \bm{e_3}$.
+\begin{equation}
+    \bm{x} \times \bm{b} = \rho g x_2 \bm{e_1} - \rho g x_1 \bm{e_2} = \rho g (x_2\bm{e_1} - x_1 \bm{e_2})
+\end{equation}
+This cross product then goes into the integral for the body moment.
+\begin{equation}
+    \bm{M_b} = \int_{\Omega}\bm{x} \times \bm{b} \space dV_{\bm{x}} = \int_{\Omega} (\rho g)(x_2\bm{e_1} - x_1 \bm{e_2}) dV_{\bm{x}} = \bm{e_1}\int_{\Omega} \rho gx_2dV_{\bm{x}} - \bm{e_2}\int_{\Omega} \rho gx_1 dV_{\bm{x}}
+\end{equation}
+Then we can sub in our expression for density $\rho(\bm{x}) = (\rho_w/2 R)x_2 + \rho_w$ and convert our integrals to spherical.
+\begin{equation}
+    \bm{M_b} = \bm{e_1}g \int_{\Omega} (\frac{\rho_w}{2R}x_2 + \rho_w) x_2dV_{\bm{x}} - \bm{e_2}g\int_{\Omega} (\frac{\rho_w}{2R}x_2 + \rho_w)x_1 dV_{\bm{x}}
+\end{equation}
+\begin{equation}
+\begin{split}
+    \bm{M_b} = \bm{e_1}g \left[ \int_{\Omega} \frac{\rho_w}{2R}x_2x_2dV_{\bm{x}} + \int_{\Omega}\rho_w x_2dV_{\bm{x}} \right] \\
+    - \bm{e_2}g \left[ \int_{\Omega} \frac{\rho_w}{2R}x_2x_1 dV_{\bm{x}} + \int_{\Omega}\rho_w x_1dV_{\bm{x}}\right]
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+    \bm{M_b} = \bm{e_1}g \left[ \frac{\rho_w}{2R}\int_{\Omega}r^4\cos^2{\theta} \sin{\theta}drd\theta d\phi + \rho_w \int_{\Omega}r^3\cos{\theta}\sin{\theta}drd\theta d\phi \right] \\
+    - \bm{e_2}g \left[ \frac{\rho_w}{2R}\int_{\Omega} r^4 \sin^2{\theta}\cos{\theta}\cos{\phi}drd\theta d\phi + \rho_w\int_{\Omega} r^3\sin^2{\theta}\cos{\phi}drd\theta d\phi \right]
+\end{split}
+\end{equation}
+Perform the integral with bounds $r=0$ to $R$, $\theta=0$ to $\pi$, and $\phi = 0$ to $2\pi$.
+\begin{equation}
+\begin{split}
+    \bm{M_b} = \bm{e_1}g \left[ \frac{\rho_w}{2R}\int_{0}^{R}r^4 dr \int_{0}^{\pi}\cos^2{\theta} \sin{\theta} \space d\theta \int_{0}^{2\pi}d\phi + \rho_w \int_{0}^{R}r^3dr \int_{0}^{\pi}\cos{\theta}\sin{\theta} \space d\theta \int_{0}^{2\pi}d\phi \right] \\
+    - \bm{e_2}g \left[ \frac{\rho_w}{2R}\int_{0}^{R}r^4dr \int_{0}^{\pi}\sin^2{\theta}\cos{\theta} \space d\theta \int_{0}^{2\pi}\cos{\phi}\space d\phi + \rho_w\int_{0}^{R}r^3 dr\int_{0}^{\pi}\sin^2{\theta} \space d\theta \int_{0}^{2\pi}\cos{\phi} \space d\phi \right]
+\end{split}
+\end{equation}
+\begin{equation}
+    \bm{M_b} = \bm{e_1}g \left[ \frac{\rho_w}{2R} (R^5/5)(2/3)(2\pi) + \rho_w (R^4/4)(0)(2\pi) \right] - \bm{e_2}g \left[ \frac{\rho_w}{2R}(0) + \rho_w (0) \right]
+\end{equation}
+\begin{equation}
+    \bm{M_b} = \bm{e_1}g \left[ \frac{\rho_w}{2R} (R^5/5)(2/3)(2\pi)\right] = \frac{2\pi}{15}R^4\rho_w g \bm{e_1}
+\end{equation}
+
+For the traction moment, we first perform the cross product with $\bm{t} = \frac{-\rho_w g x_3}{R}(x_1\bm{e_1} + x_2\bm{e_2} + x_3\bm{e_3})$ and $\bm{x} = x_1 \bm{e_1} + x_2 \bm{e_2} + x_3 \bm{e_3}$.
+\begin{equation}
+    \bm{x} \times \bm{t} = 0 \bm{e_1} + 0 \bm{e_2} + 0 \bm{e_3} = \bm{0}
+\end{equation}
+This cross product then goes into the integral for the body moment.
+\begin{equation}
+    \bm{M_t} = \int_{\Omega}\bm{x} \times \bm{t} \space dV_{\bm{x}} = \int_{\Omega} \bm{0} \space dV_{\bm{x}} = \bm{0}
+\end{equation}
+Summing the contributions from body and traction moment, we get a net moment as follows.
+\begin{equation}
+    \bm{M_{net}} = \bm{M_{b}} + \bm{M_{t}} = \frac{2\pi}{15}R^4\rho_w g \bm{e_1} + \bm{0} = \frac{2\pi}{15}R^4\rho_w g \bm{e_1}
+\end{equation}
+\hspace*{\fill} $\bigstar$
+\medskip
+
+(b) $\mathcal{B}$ is in static equilibrium when:
+
+(1) The average density of the gel matches that of water (or more generally, the density of the fluid the gel in submerged in). This would establish a net force of zero, and is true for the current configuration of the gel sphere in water with the problem-defined density gradient.
+
+(2) The center of mass established by the density gradient is aligned with the center of volume of the sphere. That is, if we were to rotate the sphere so that the density gradient is along the $\bm{e_3}$ axis, the net body force would act along that axis and in line with the center of our coordinate system (and the center of volume where the buoyant force effectively acts) and therefore not contribute to the net moment. This would establish a net moment of zero, and is not true for the current configuration of the gel sphere in water.
+
+\bigskip
+\subsection*{2--3. \textbf{Viscoelastic data}} 
+
+\medskip
+(a) For linear viscoelasticity, isochrones should be linear. This material cannot be fully described with LVE, but the assumption should be valid in the roughly linear region for for strain $\varepsilon = 0$ to about $2 \times 10^-3$ and stress $\sigma = 0$ to about 300 Pa.
+
+\medskip
+(b) We expect the strain response for a step stress $\sigma(t) = \sigma_0 H(t)$ to be $\varepsilon(t) = J_c(t,\sigma)\sigma_0$. To get $J_c(t)$ for a given stress, we can estimate the strain function $\varepsilon(t)$ at that stress value and use this relationship to get the following for a given $\sigma_0$ value.
+\begin{equation}
+    \varepsilon(t) = J_c(t)\sigma_0 \to J_c(t) = \frac{1}{\sigma_0} \varepsilon(t)
+\end{equation}
+
+For 100Pa, we look at the the strain values for each time along that stress value. Looking along the $\sigma = 100$Pa line, we estimate $\varepsilon(2) = 0.44 \times 10^{-3}$, $\varepsilon(5) = 0.54 \times 10^{-3}$, $\varepsilon(10) = 0.67 \times 10^{-3}$, $\varepsilon(20) = 0.82 \times 10^{-3}$, $\varepsilon(40) = 0.99 \times 10^{-3}$. Plotting these values we get the following.
+
+\includegraphics[scale=0.5]{Dawson-figures/100-data.png}
+
+Visually, this plot looks like it could be a logarithmic or square root fit for $\varepsilon(t)$. This would suggest a form of $\varepsilon(t) = A\ln{t}+B$ or $\varepsilon(t) = A\sqrt{t}+B$. To test, we make plots of $\varepsilon$ vs $\ln{t}$ and $\sqrt{t}$ and a linear fit to this data.
+
+\includegraphics[scale=0.5]{Dawson-figures/100-ln.png}
+\includegraphics[scale=0.5]{Dawson-figures/100-sqrt.png}
+
+Looking at these plots, it seems that $\varepsilon(t) = A\sqrt{t}+B$ will be a better fit to this data. We use the linear fit of $y = (1.13 \times10^{-4})x + (2.94 \times 10^{-4})$ to get a corresponding expression for $\varepsilon(t)$. 
+\begin{equation}
+    \varepsilon(t) =(1.13 \times10^{-4})\sqrt{t}+(2.94 \times 10^{-4})
+\end{equation}
+Which we can plot and see that it estimates our data reasonably well.
+
+\includegraphics[scale=0.5]{Dawson-figures/100-full.png}
+
+Then, dividing by the constant stress values $\sigma_0 = 100$ Pa, we can get a relationship for $J_c(t)$.
+\begin{equation}
+    J_c(t) =(1.13 \times10^{-6})\sqrt{t}+(2.94 \times 10^{-6})
+\end{equation}
+\hspace*{\fill} $\bigstar$
+\medskip
+
+We can then repeat a similar process for 250Pa. Looking along the $\sigma = 250$Pa line, we estimate $\varepsilon(2) = 1.2 \times 10^{-3}$, $\varepsilon(5) = 1.45 \times 10^{-3}$, $\varepsilon(10) = 1.80 \times 10^{-3}$, $\varepsilon(20) = 2.40 \times 10^{-3}$, $\varepsilon(40) = 3.00 \times 10^{-3}$. Plotting these values we get the following.
+
+\includegraphics[scale=0.5]{Dawson-figures/250-data.png}
+
+Repeating the same plots of $\varepsilon$ vs $\ln{t}$ and $\sqrt{t}$ and linearly fitting the data, we once again see that an expression of the form $\varepsilon(t) = A\sqrt{t}+B$ will likely estimate the data well.
+
+\includegraphics[scale=0.5]{Dawson-figures/250-ln.png}
+\includegraphics[scale=0.5]{Dawson-figures/250-sqrt.png}
+
+From the linear fit of $y = (1.13 \times10^{-4})x + (2.94 \times 10^{-4})$ we can get an expression for $\varepsilon(t)$.
+\begin{equation}
+    \varepsilon(t) =(3.77 \times10^{-4})\sqrt{t}+(6.42 \times 10^{-4})
+\end{equation}
+Plotting this relationship with the estimated $\varepsilon(t)$ data points we can see a reasonably good fit as well.
+
+\includegraphics[scale=0.5]{Dawson-figures/250-full.png}
+
+Dividing by the constant stress value $\sigma_0 = 250$ Pa, we can get a relationship for $J_c(t)$.
+\begin{equation}
+    J_c(t) =(1.508 \times10^{-6})\sqrt{t}+(2.568 \times 10^{-6})
+\end{equation}
+\hspace*{\fill} $\bigstar$
+
+\bigskip
+\subsection*{2--4. \textbf{Impulsive stresses}}
+\medskip
+(a) For LVE we can use superposition to combine step load responses into responses to an arbitrary stress function according to the following relationship.
+\begin{equation}
+    \varepsilon(t) = \int_{0}^{t}J_c(t-\tau)\frac{d\sigma(\tau)}{d\tau}d\tau
+\end{equation}
+We can solve this relationship for the given stress function of $\sigma(t) = A \delta(t)$ using a Laplace transformation. We take the Laplace transform of both sides of the above expression, noting that the expression is a convolution of two functions to a product of two Laplace transforms.
+\begin{equation}
+    \mathcal{L}\{ \varepsilon(t)\} = \mathcal{L}\{ \int_{0}^{t}J_c(t-\tau)\frac{d\sigma(\tau)}{d\tau}d\tau\} = \mathcal{L}\{ J_c(t)\}\mathcal{L}\{ \frac{d \sigma(t)}{d t}\}
+\end{equation}
+Subbing in our stress function $\sigma(t) = A \delta(t)$ we get the Laplace transform of $J_c(t)$ and of the derivative of $\delta(t)$.
+\begin{equation}
+    \mathcal{L}\{ \varepsilon(t)\} = \mathcal{L}\{ J_c(t)\}\mathcal{L}\{ \frac{d}{d t} A \delta(t)\} = A \overline{J_c}(s)\mathcal{L}\{ \frac{d}{d t}\delta(t)\}
+\end{equation}
+We note that $\mathcal{L}\{ \delta(t) \} = 1$, $\mathcal{L}\{ \delta^{(1)}(t) \} = s$, $\mathcal{L}\{ \delta^{(2)}(t) \} = s^2$, and so on such that the nth derivative of $\delta(t)$ has a Laplace transform $\mathcal{L}\{ \delta^{(n)}(t) \} = s^n$. Therefore, we can take the Laplace transform of $\mathcal{L}\{ \frac{\partial}{\partial t} \delta(t) \} = s$.
+\begin{equation}
+    \mathcal{L}\{ \varepsilon(t)\} = A s \overline{J_c}(s)
+\end{equation}
+Then we can take the inverse Laplace transform of both sides, where we note that $\mathcal{L} \{ \frac{d}{dt} f(t) \} = sF(s) - f(0)$ giving us an inverse Laplace transform of $ \frac{d}{dt} f(t) = \mathcal{L}^{-1} \{ sF(s) - f(0) \}$. Also note that $\mathcal{L}\{ \delta(t) \} = 1$ so that $\mathcal{L}^{-1} \{ 1 \} = \delta(t)$ and $\mathcal{L}^{-1} \{ C \} = C\delta(t)$.
+\begin{equation}
+    \varepsilon(t) = \mathcal{L}^{-1}\{ A s \overline{J_c}(s) \} = A \mathcal{L}^{-1}\{s \overline{J_c}(s)  - J_c(0) + J_c(0)\}
+\end{equation}
+\begin{equation}
+    \varepsilon(t) = A \mathcal{L}^{-1}\{s \overline{J_c}(s)  - J_c(0) \} + A\mathcal{L}^{-1} \{J_c(0)\}
+\end{equation}
+Taking the inverse Laplace transform of both of these pieces we get the following for the general creep relaxation function.
+\begin{equation}
+    \varepsilon(t) = A \frac{d}{dt}J_c(t) + AJ_c(0)\delta(t)
+\end{equation}
+\hspace*{\fill} $\bigstar$
+\medskip
+
+For the Kelvin-Voigt model, we can use the expression for the response of a Kelvin-Voigt solid to an arbitrary stress.
+\begin{equation}
+    \varepsilon(t) = \frac{\sigma(t = 0^-)}{E}(1-\exp[-Et/\eta]) + \frac{1}{E} \int_{0^-}^{t}(1 - \exp[\frac{-E(t-\tau)}{\eta}]\frac{d\sigma(\tau)}{d\tau}d\tau
+\end{equation}
+For the stress function $\sigma(t) = A \delta(t)$, $\sigma(0^-) = 0$ so the first term goes away to zero. Then we take a Laplace transform of both sides to solve for $\varepsilon(t)$.
+\begin{equation}
+    \mathcal{L}\{ \varepsilon(t)\} = \frac{1}{E}\mathcal{L}\{  \int_{0^-}^{t}(1 - \exp[\frac{-E(t-\tau)}{\eta}]\frac{d\sigma(\tau)}{d\tau}d\tau \}
+\end{equation}
+We once again note that this is the Laplace transform of a convolution, which is equal to the product of the Laplace transform for the two component functions of the convolution.
+\begin{equation}
+    \mathcal{L}\{ \varepsilon(t)\} = \frac{1}{E}\mathcal{L}\{1 - \exp[\frac{-Et}{\eta}]\} \mathcal{L}\{\frac{d\sigma(t)}{dt}\} = \frac{1}{E}\mathcal{L}\{1 - \exp[\frac{-Et}{\eta}]\} \mathcal{L}\{\frac{d}{dt} A\delta(t)\}
+\end{equation}
+Taking the Laplace transforms, noting that $\mathcal{L}\{\frac{d}{dt}\delta(t) \} =  s$, $\mathcal{L}\{e^{-at} \} = \frac{1}{s+a}$, and $\mathcal{L}\{1\} =1/s$.
+\begin{equation}
+    \mathcal{L}\{ \varepsilon(t)\} = \frac{A}{E}(\frac{1}{s}-\frac{1}{s+E/\eta})(s) = \frac{A}{E}(1 - \frac{s}{s+E/\eta})
+\end{equation}
+\begin{equation}
+    \mathcal{L}\{ \varepsilon(t)\} = \frac{A}{E}- \frac{A}{E}\frac{s + E/\eta - E/\eta}{s+E/\eta} = \frac{A}{E}- \frac{A}{E}(1-\frac{E/\eta}{s+E/\eta})
+\end{equation}
+\begin{equation}
+    \mathcal{L}\{ \varepsilon(t)\} = \frac{A}{\eta}(\frac{1}{s+E/\eta})
+\end{equation}
+Then doing the inverse Laplace transform of both sides and noting $\mathcal{L}^{-1}\{\frac{1}{s + a}\} = e^{-at}$ we get the following for the Kelvin-Voigt model.
+\begin{equation}
+    \varepsilon(t) = \frac{A}{\eta}e^{-Et/\eta}
+\end{equation}
+\hspace*{\fill} $\bigstar$
+\medskip \newline
+We could also get this result by subbing $J_c(t)$ for the Kelvin-Voigt model into our expression with this stress function for a general creep relaxation function.
+
+(b) We repeat a similar process for the stress function $\sigma(t) = B \psi(t) = B \frac{d}{dt}\delta(t)$. Starting from the strain function for a general stress function and taking the Laplace transformation.
+\begin{equation}
+    \varepsilon(t) = \int_{0}^{t}J_c(t-\tau)\frac{d\sigma(\tau)}{d\tau}d\tau
+\end{equation}
+\begin{equation}
+    \mathcal{L}\{ \varepsilon(t)\} = \mathcal{L}\{ J_c(t)\}\mathcal{L}\{ \frac{d \sigma(t)}{d t}\} = \overline{J_c}(s) \mathcal{L}\{ B\delta^{(2)}(t) \}
+\end{equation}
+We note that $\mathcal{L}\{ \delta^{(2)}(t) \} = s^2$.
+\begin{equation}
+    \mathcal{L}\{ \varepsilon(t)\} = \overline{J_c}(s) B s^2
+\end{equation}
+Then taking the inverse Laplace transform and noting that both $\mathcal{L} \{ \frac{d}{dt} f(t) \} = sF(s) - f(0)$ giving us an inverse Laplace transform of $ \frac{d}{dt} f(t) = \mathcal{L}^{-1} \{ sF(s) - f(0) \}$ and $\mathcal{L} \{ \frac{d^2}{dt^2} f(t) \} = s^2F(s) - sf(0) - f'(0)$ giving us an inverse Laplace transform $ \frac{d^2}{dt^2} f(t) = s^2F(s) - sf(0) - f'(0)$. We also note that $\mathcal{L}\{ \delta(t) \} = 1$ and $\mathcal{L}\{ \delta'(t) \} = s$ so that $\mathcal{L}^{-1}\{ 1 \} = \delta(t)$ and $\mathcal{L}^{-1}\{ s \} = \delta'(t)$.
+\begin{equation}
+    \varepsilon(t) = \mathcal{L}^{-1}\{ \overline{J_c}(s) B s^2 \} = B\mathcal{L}^{-1}\{ s^2\overline{J_c}(s) \}
+\end{equation}
+\begin{equation}
+    \varepsilon(t) = B\mathcal{L}^{-1}\{ s^2\overline{J_c}(s)  - sJ_c(0) - \dot{J_c}(0)\} + B\mathcal{L}^{-1}\{ sJ_c(0)\} + B\mathcal{L}^{-1}\{ \dot{J_c}(0)\}
+\end{equation}
+Doing so, we get the following expression for a general creep relaxation function.
+\begin{equation}
+    \varepsilon(t) = B\frac{d^2}{dt^2}J_c(t) + B\dot{J_c}(0)\delta(t) + BJ_c(0)\delta'(t)
+\end{equation}
+\hspace*{\fill} $\bigstar$
+\medskip
+
+For the Kelvin-Voigt model we start from the same expression for an arbitrary stress on the Kelvin-Voigt model as we did in part (a).
+\begin{equation}
+    \varepsilon(t) = \frac{\sigma(t = 0^-)}{E}(1-\exp[-Et/\eta]) + \frac{1}{E} \int_{0^-}^{t}(1 - \exp[\frac{-E(t-\tau)}{\eta}]\frac{d\sigma(\tau)}{d\tau}d\tau
+\end{equation}
+Note that $\sigma(0^-)=0$ so the first term goes away. We then take the Laplace transform .
+\begin{equation}
+    \mathcal{L}\{ \varepsilon(t)\} =  \frac{B}{E}\mathcal{L}\{1 - \exp[\frac{-Et}{\eta}]\} \mathcal{L}\{\frac{d}{dt}\frac{d}{dt}\delta(t)\} = \frac{B}{E}s^2(\frac{1}{s} - \frac{1}{s + E/\eta})
+\end{equation}
+\begin{equation}
+    \mathcal{L}\{ \varepsilon(t)\} = \frac{B}{E}(s - \frac{s^2}{s + E/\eta}) =  \frac{Bs}{E} - \frac{B}{E}(\frac{s^2}{s+a})
+\end{equation}
+Then we can take the inverse Laplace transform, and get the strain for the Kelvin-Voigt model as follows.
+\begin{equation}
+    \varepsilon(t) = \frac{B}{E}\delta'(t) - \frac{B}{E} \left[ \delta'(t)+\frac{E^2}{\eta^2}e^{-Et/\eta}- \frac{E}{\eta}\delta(t) \right]
+\end{equation}
+\begin{equation}
+    \varepsilon(t) = \frac{-EB}{\eta^2}e^{-Et/\eta} + \frac{B}{\eta}\delta(t)
+\end{equation}
+\hspace*{\fill} $\bigstar$
+\medskip
+
+
+\bigskip
+\subsection*{2--5. \textbf{Two-element models}}
+(a) The constitutive law for the Kelvin-Voigt model is $\eta \dot{\varepsilon} + E\varepsilon = \sigma(t)$. For this deformation, the initial strain at $t=0$ is $\varepsilon(0) = -d/h$ (since $\varepsilon=\Delta L/L$). Then the strain oscillates between $-2d$ and $0$.
+\begin{equation}
+    \varepsilon(t) = \frac{-d}{h} - \frac{d}{h}\sin{\omega t}
+\end{equation}
+\begin{equation}
+    \dot{\varepsilon}(t) = \frac{-d \omega}{h}\cos{\omega t}
+\end{equation}
+Putting this strain into the constitutive equation.
+\begin{equation}
+    \sigma(t) = \eta \dot{\varepsilon} + E\varepsilon = \frac{-\eta \omega d}{h}\cos{\omega t} + E(\frac{-d}{h} - \frac{d}{h}\sin{\omega t})
+\end{equation}
+\begin{equation}
+    \sigma(t) = \frac{-\eta \omega d}{h}\cos{\omega t} + \frac{-Ed}{h} - \frac{Ed}{h}\sin{\omega t}
+\end{equation}
+\hspace*{\fill} $\bigstar$
+\medskip
+
+(b) Strain is applied at $\sin{\omega t}$. To get the difference in phase (or phase lag) for the stress we can combine the expression we got in part (a) to a single sine term so that we can get the oscillations in the form $\sin{(\omega t + \delta)}$. We first use $\cos{\omega t} = \sin{(\omega t + \pi/2)}$.
+\begin{equation}
+    \sigma(t) = \frac{-\eta \omega d}{h}\sin{(\omega t + \pi/2)} + \frac{-Ed}{h} - \frac{Ed}{h}\sin{\omega t}
+\end{equation}
+To add two sine functions we note that for $E_1 + E_2 = E_3$ with $E_1 = E_{10}\sin{\omega t}$ and $E_2 = E_{20}\sin{(\omega t + \Delta)}$ we get $E_3 = E_{30}\sin{(\omega t + \phi)}$ with $E_{30} = \sqrt{E^2_{10} + E^2_{20} + 2E_{10}E_{20}\cos{\Delta}}$ and $\tan{\phi} = \frac{E_{20}\sin{\Delta}}{E_{10}+E_{20}\cos{\Delta}}$. Using these expressions we can get the stress function into a single sine function with a phase lag as follows below.
+\begin{equation}
+    \tan{\phi} = \tan{\delta} = \frac{(-\eta\omega d/h)\sin{\pi/2}}{(-Ed/h) + (-\eta\omega d/h)\cos{\pi/2}} = \frac{\eta\omega}{E}
+\end{equation}
+\hspace*{\fill} $\bigstar$
+\medskip
+
+(c) Given the stress we can determine the strain also by solving the differential equation for the constitutive law for a Kelvin-Voigt material.
+\begin{equation}
+    \sigma(t) = \eta \dot{\varepsilon} + E\varepsilon = -\sigma_0 - \sigma_0\sin{\omega t}
+\end{equation}
+Solving the differential equation for strain $\varepsilon(t)$ in Mathematica we get the following.
+\begin{equation}
+    \varepsilon(t) = Ce^{-Et/\eta} - \frac{\sigma_0}{E^3 + \omega^2 \eta^2E}(E^2 + \omega^2 \eta^2 - \omega E \eta \cos{\omega t} + E^2 \sin{\omega t})
+\end{equation}
+Using initial condition $\varepsilon(0) = \varepsilon_0 = -d/h$ we get the following.
+\begin{equation}
+    \varepsilon(0) = C - \frac{\sigma_0}{E^3 + \omega^2 \eta^2E}(E^2 + \omega^2 \eta^2 - \omega E \eta (1) + E^2 (0)) = \varepsilon_0
+\end{equation}
+\begin{equation}
+    C = \varepsilon_0 +  \frac{\sigma_0}{E(E^2 + \omega^2 \eta^2)}(E^2 + \omega^2 \eta^2 - \omega\eta E) = \frac{d}{h} +  \frac{\sigma_0}{E(E^2 + \omega^2 \eta^2)}(E^2 + \omega^2 \eta^2 - \omega\eta E)
+\end{equation}
+We can sub this in for our constant to get a final expression for $\varepsilon(t)$.
+\begin{equation}
+     \varepsilon(t) =\left[ \frac{d}{h} +  \frac{\sigma_0 (E^2 + \omega^2 \eta^2 - \omega\eta E)}{E(E^2 + \omega^2 \eta^2)}\right]  e^{-Et/\eta} - \frac{\sigma_0}{E(E^2 + \omega^2 \eta^2)}(E^2 + \omega^2 \eta^2 - \omega E \eta \cos{\omega t} + E^2 \sin{\omega t})
+\end{equation}
+\hspace*{\fill} $\bigstar$
+\medskip
+
+(d) We can look at the above expression at larger times, where the contribution of the exponential term will decrease and the behavior is mainly sinusoidal. Doing so, we can look at combining our terms into a single sine function (or at least find the phase difference for that combined sine function from the stress input) to see what the phase lag would be for the sinusoidal part of the material response. Note that the frequency for the stress is related to $\sin{\omega t}$ this time, and we will directly find the phase difference for the strain.
+
+For large times we can simplify the expression from part (c) to ignore the exponential term.
+\begin{equation}
+     \varepsilon(t) \approx \frac{-\sigma_0}{E(E^2 + \omega^2 \eta^2)}(E^2 + \omega^2 \eta^2 - \omega E \eta \cos{\omega t} + E^2 \sin{\omega t})
+\end{equation}
+We first use $\cos{\omega t} = \sin{(\omega t + \pi/2)}$.
+\begin{equation}
+     \varepsilon(t) \approx \frac{-\sigma_0}{E(E^2 + \omega^2 \eta^2)}(E^2 + \omega^2 \eta^2 - \omega E \eta \sin{(\omega t +\pi/2)} + E^2 \sin{\omega t})
+\end{equation}
+\begin{equation}
+     \varepsilon(t) \approx \frac{-\sigma_0}{E(E^2 + \omega^2 \eta^2)}(E^2 + \omega^2 \eta^2) + \frac{\sigma_0 \omega\eta}{(E^2 + \omega^2 \eta^2)} \sin{(\omega t +\pi/2)} + \frac{-\sigma_0 E}{(E^2 + \omega^2 \eta^2)} \sin{\omega t}
+\end{equation}
+Then for the sum of the sine terms, we get $\tan{\phi}$ of the combined function $E_{30}\sin{\omega t + \phi}$ based on the same formulas used in part (b).
+\begin{equation}
+    \tan{\phi} = \frac{(\frac{\sigma_0 \omega\eta}{E^2 + \omega^2 \eta^2})\sin{\pi/2}}{(\frac{-\sigma_0 E}{E^2 + \omega^2 \eta^2}) + (\frac{\sigma_0 \omega\eta}{E^2 + \omega^2 \eta^2})\cos{\pi/2}} = \frac{\frac{\sigma_0 \omega\eta}{E^2 + \omega^2 \eta^2}}{\frac{-\sigma_0 E}{E^2 + \omega^2 \eta^2}} = \frac{-\omega \eta}{E}
+\end{equation}
+Once again, this is the phase difference for the strain function compared to the stress function. To get the phase lag of the stress behind the strain, we just invert the sign.
+\begin{equation}
+    \tan{\delta} = -\tan{\phi} = \frac{\omega \eta}{E}
+\end{equation}
+Which is the same as the phase lag found in part (b).
+\hspace*{\fill} $\bigstar$
+
+
+\end{document}
