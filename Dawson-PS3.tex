@@ -1,0 +1,197 @@
+\documentclass[preprint,12pt,authoryear]{elsarticle}
+\input{instr-preamble}
+\input{instr-mathsymbols}
+\journal{ME517---Mechanics of Soft Materials}
+\setlength{\marginparwidth}{2cm}
+\begin{document}
+
+\section*{Examples III. Linear Viscoelastic Models}
+
+\medskip
+\subsection*{3--1. \textbf{Converting creep to relaxation} [4 pts].}
+(a) Plot of $J_c(t)$. Asymptote at $J_c=0.01$, initial value at $J_c=0.002$, and creep time constants of $\tau_{c1}=4$ and $\tau_{c2}=8$ are labeled in the figure.
+
+\includegraphics[]{Dawson-figures/3-1-a.png}
+
+(b) We can use the relationship for $J_c(t)$ and $G_r(t)$ in Laplace space, $\bar{G_r}(s) \bar{J_c}(s)=1/s^2$.
+
+We have $J_c(t)$ so we can compute the Laplace transform using Mathematica, then put this into the rearranged expression $\bar{G_r}(s) = \frac{1}{s^2 \bar{J_c}(s)}$.
+
+$\bar{J_c}(s)=\frac{1}{1000}\left[ \frac{10}{s} - \frac{5}{s + 1/4} - \frac{3}{s+1/8} \right]$
+
+$\bar{G_r}(s) = \frac{1000}{s^2} \left[ \frac{10}{s} - \frac{5}{s + 1/4} - \frac{3}{s+1/8} \right]^{-1}$
+
+Where we can take the inverse Laplace transform using Mathematica to get the following.
+
+$G_r(t) = 100 -900 \sqrt{\frac{3}{67}} e^{\left(\frac{\sqrt{201}}{32}-\frac{19}{32}\right) t}+900 \sqrt{\frac{3}{67}} e^{\left(-\frac{\sqrt{201}}{32}-\frac{19}{32}\right) t}+200 e^{\left(\frac{\sqrt{201}}{32}-\frac{19}{32}\right) t}+200 e^{\left(-\frac{\sqrt{201}}{32}-\frac{19}{32}\right) t}$
+
+This expression can be rearranged to a more physically meaningful version in the form $G_0 + G_1 e^{-t/\tau_{r1}} + G_2e^{-t/\tau_{r2}}$ as follows.
+
+$G_r(t) = 100 + \left[ 200 + 900\sqrt{\frac{3}{67}} \right] e^{-t/(\frac{32}{19+\sqrt{201}})} + \left[ 200 - 900\sqrt{\frac{3}{67}} \right] e^{-t/(\frac{32}{19-\sqrt{201}})} $
+
+From this form, we can get the relaxation time constants $\tau_{r1}=\frac{32}{19+\sqrt{201}} \approx 0.96$ and $\tau_{r2}=\frac{32}{19-\sqrt{201}} \approx 6.6$. Comparing to the original $J_c$ expression in the form $J_0 + J_1 e^{-t/\tau_{c1}} + J_2e^{-t/\tau_{c2}}$ where $\tau_{c1} = 4$ and $\tau_{c2} = 8$, we note that the stress relaxation times are smaller than their corresponding creep times, as we would expect.
+
+In doing this, we note two things. First and most importantly, $\tau_{r1}$ came from the term of $J_c(t)$ containing $\tau_{c1}$. This means that we are comparing the correct time constants of the creep and relaxation functions. Second, this first time constant corresponds to the smaller time constant and larger coefficient in both creep and relaxation.
+
+\bigskip
+\subsection*{3--2. \textbf{Alternate standard linear solid model} [4 pts].}
+(a) We start by drawing the mechanical analog model, both in full (left) and the two individual components (right). We have a spring and a Kelvin-Voigt (KV) solid in series.
+
+\includegraphics[scale=1]{Dawson-figures/3-2-a.png}
+
+Since the components are in series, the force (stress) will be the same as the stress on the overall system and the sum of the changes in length (strains) will be the same as the overall strain. Mathematically, $\sigma(t)=\sigma_s(t)=\sigma_{kv}(t)$ and $\varepsilon(t)=\varepsilon_s(t)+\varepsilon_{kv}(t)$.
+
+We also can note our working equations for each of the system components. For the spring, $\sigma_s=E\varepsilon_s$. Differentiating, we also note that $\dot{\sigma}_s=E\dot{\varepsilon}_s$. For the Kelvin-Voigt solid, $\eta \dot{\varepsilon}_{kv}+E_1\varepsilon_{kv}=\sigma_{kv}$ as derived in the notes.
+
+Since $\sigma(t)=\sigma_s(t)=\sigma_{kv}(t)$ we can substitute all our stress terms for simply the overall stress $\sigma$. This gives us the following expressions to work with.
+
+$\sigma=E\varepsilon_s$ \space\space\space $\dot{\sigma}=E\dot{\varepsilon}_s$ \space\space\space $\eta \dot{\varepsilon}_{kv}+E_1\varepsilon_{kv}=\sigma$
+
+For simplicity, we can define $\tau=\eta/E_1$ and divide both sides of our third expression (from the KV model) by $E_1$ to get the following.
+
+$(\eta\dot{\varepsilon}_{kv}+E_1\varepsilon_{kv}=\sigma)(1/E_1) \to \frac{\eta}{E_1}\dot{\varepsilon}_{kv}+\varepsilon_{kv}=\frac{\sigma}{E_1} \to \tau\dot{\varepsilon}_{kv}+\varepsilon_{kv}=\frac{\sigma}{E_1}$
+
+We can then rearrange our spring equations $\sigma_s=E\varepsilon_s$ and $\dot{\sigma}_s=E\dot{\varepsilon}_s$ to $\varepsilon_s=\sigma/E$ and $\dot{\varepsilon}_s=\dot{\sigma}/E$. We can use the equivalence in these expressions to add $\tau\dot{\varepsilon}_s$ and $\varepsilon_s$ to both sides of our KV expression, but in different forms on the two sides.
+
+$\tau\dot{\varepsilon}_{kv}+ \tau\dot{\varepsilon}_s +\varepsilon_{kv}+ \varepsilon_s =\frac{\sigma}{E_1}+ \frac{\tau\dot{\sigma}}{E} + \frac{\sigma}{E}$
+
+We can use that $\varepsilon(t)=\varepsilon(t)+\varepsilon_{kv}(t)$ and the differentiated version $\dot{\varepsilon}(t)=\dot{\varepsilon}_s(t)+\dot{\varepsilon}_{kv}(t)$ to get our expression entirely in terms of system variables $\varepsilon$ and $\sigma$.
+
+$\tau \dot{\varepsilon} + \varepsilon = \frac{\tau}{E}\dot{\sigma} + (\frac{1}{E_1}+\frac{1}{E})\sigma$
+
+Which is our differential constitutive law.
+
+(b) We can take the Laplace transform of our differential constitutive law to get an expression in terms of $\bar{\varepsilon}(s)$ and $\bar{\sigma}(s)$. To do this, we also note that $\mathcal{L}\{\frac{df}{dt} = sF(s)-f(0)\}$ with $\varepsilon(0)=\sigma(0)=0$ here.
+
+$\mathcal{L}\{ \tau \dot{\varepsilon} + \varepsilon = \frac{\tau}{E}\dot{\sigma} + (\frac{1}{E_1}+\frac{1}{E})\sigma \} = \tau s \bar{\varepsilon}(s) + \bar{\varepsilon}(s) = \frac{\tau}{E} s \bar{\sigma}(s)+ (\frac{1}{E_1}+\frac{1}{E}) \bar{\sigma}(s)$
+
+To get our creep and relaxation functions, we note that $\bar{\sigma}(s) = s\bar{G_r}(s)\bar{\varepsilon}(s)$ and $\bar{\varepsilon}(s) = s\bar{J_c}(s)\bar{\sigma}(s)$. Starting with the creep function, we rearrange our expression to the following form.
+
+$[\tau s + 1]\bar{\varepsilon}(s) = [\frac{1}{E_1} + \frac{1}{E} + \frac{\tau s}{E}]\bar{\sigma}(s) = [\frac{E+E_1+\tau E_1 s}{E E_1}]\bar{\sigma}(s)$
+
+$\bar{\varepsilon}(s) = [\frac{E+E_1+\tau E_1 s}{E E_1 (\tau s + 1)}]\bar{\sigma}(s)$
+
+So that $s \bar{J_c}(s) = \frac{E+E_1+\tau E_1 s}{E E_1 (\tau s + 1)}$ and therefore $\bar{J_c}(s) = \frac{E+E_1+\tau E_1 s}{s E E_1 (\tau s + 1)}$
+
+Taking the inverse Laplace transform in Mathematica we get the following creep function.
+
+$J_c(t) = (\frac{1}{E} + \frac{1}{E_1}) - \frac{1}{E_1}e^{-t/\tau} = (\frac{E+E_1}{EE_1}) - \frac{1}{E_1}e^{-t/\tau}$
+
+Repeating the same process for the relaxation function, we get $\bar{\sigma}(s) = [\frac{E E_1 (\tau s + 1)}{E+E_1+\tau E_1 s}]\bar{\varepsilon}(s)$ so that $s \bar{G_r}(s) = \frac{E E_1 (\tau s + 1)}{E+E_1+\tau E_1 s}$ and $\bar{G_r}(s) = \frac{E E_1 (\tau s + 1)}{s(E+E_1+\tau E_1 s)}$. Taking the inverse Laplace transform we get the following.
+
+$G_r(t) = \frac{1}{E+E_1} \left[ EE_1 + E^2e^{\frac{-(E+E_1)t}{\tau E_1}} \right] = \frac{EE_1}{E+E_1} + \frac{E^2}{E+E_1}e^{\frac{-(E+E_1)t}{E_1 \tau}} $
+
+(c) For the SLS we discussed in class, $J_c(t) = \frac{1}{E}-\frac{E_1}{E(E+E_1)}e^{\frac{-Et}{(E+E_1)\tau}}$ and $G_r(t) = E + E_1e^{-t/\tau}$.
+
+First, the coefficients for the creep function are much simpler for this alternative model, and the coefficients for the relaxation function are more complicated.
+
+To get to the alternative creep function from the version derived in class, the constant term is multiplied by $\frac{E+E_1}{E_1}$, the term in front of the exponent is multiplied by $\frac{E}{E_1}\frac{E+E_1}{E_1}$ and the power on the exponent is multiplied by $\frac{E+E_1}{E}$. These are somewhat similar fractions with $E+E_1$, although there are differences in the specifics of whether $E$ or $E_1$ is in the denominator (or for the term in front of the exponent, whether we need to swap from having $E$ in the denominator to $E_1$ in the denominator).
+
+To get to the alternative relaxation function from the version derived in class, the constant term is multiplied by $\frac{E_1}{E+E_1}$, the term in front of the exponent is multiplied by $\frac{E}{E_1}\frac{E}{E+E_1}$, and the power on the exponent is multiplied by $\frac{E+E_1}{E_1}$. These are once again similar fractions to each other, although less so than for $J_c(t)$ since one of the multiplication factors has $E+E_1$ in the numerator rather than the denominator. The overall form of each of these factors is also similar to those for the creep function.
+
+\bigskip
+\subsection*{3--3. \textbf{Frequency response of a 5-term analog model} [4 pts].}
+(a) This fit is a Generalized Maxwell Model up to N=2.
+
+\includegraphics[scale=0.5]{Dawson-figures/3-3-a.png}
+
+(b) The relaxation function follows the form $G_r(t) = E_\infty + \tilde{E}(t)$, with a constant and a transient part. From the given relaxation function, $E_\infty = 10C_r$ and $\tilde{E}(t) = C_r(200e^{-2t}+100e^{-t})$. We can then get the storage and loss moduli directly from these values using the expressions $E'(\omega) = E_\infty + \omega \int_{0}^{\infty} \tilde{E}(t) \sin{\omega t} dt$ and $E''(\omega) = \omega \int_{0}^{\infty} \tilde{E}(t) \cos{\omega t} dt$.
+
+For the storage modulus $E'(\omega)$, we get the following.
+
+$E'(\omega) = 10C_r + \omega C_r\int_{0}^{\infty}(200e^{-2t}+100e^{-t}) \sin{\omega t} dt = 10C_r + \omega C_r\left[ 200 \int_{0}^{\infty}e^{-2t}\sin{\omega t} dt + 100\int_{0}^{\infty}e^{-t}\sin{\omega t} dt\right]$
+
+$E'(\omega) = 10C_r + \omega C_r\left[ 200(\frac{-1}{2}e^{-2t}\sin{\omega t})_0^\infty + 100(-e^{-t}\sin{\omega t})_0^\infty \right]$
+
+$E'(\omega) = 10C_r + \omega C_r\left[ -100(e^{-\infty}\sin{\infty} - e^{0}\sin{0}) - 100(e^{-\infty}\sin{\infty} - e^{0}\sin{0}) \right]$
+
+Evaluating the integrated terms from $0$ to $\infty$, we note that $\sin(\infty)$ will oscillate between 0 and 1 while $e^{-\infty}$ will go to zero. Since $\sin(0)$ for the other bound is also 0, this means that both of the evaluated definite integrals will go to zero.
+
+$E'(\omega) = 10C_r + \omega C_r\left[ -100(0-0) - 100(0-0) \right] = 10C_r + \omega C_r[0] = 10C_r$
+
+For the loss modulus $E''(\omega)$, we get the following.
+
+$E''(\omega) = \omega C_r\int_{0}^{\infty}(200e^{-2t}+100e^{-t}) \cos{\omega t} dt = \omega C_r\left[ 200 \int_{0}^{\infty}e^{-2t}\cos{\omega t} dt + 100\int_{0}^{\infty}e^{-t}\cos{\omega t} dt\right]$
+
+$E''(\omega) = \omega C_r\left[ 200(\frac{-1}{2}e^{-2t}\cos{\omega t})_0^\infty + 100(-e^{-t}\cos{\omega t})_0^\infty \right]$
+
+Evaluating the integrated terms from $0$ to $\infty$, we note that $\cos(\infty)$ will oscillate between 0 and 1 while $e^{-\infty}$ will go to zero. However, since $\cos(0)$ and $e^0$ are both 1, we will not get 0 overall for the definite integral.
+
+$E''(\omega) = \omega C_r\left[ -100(0-1) - 100(0-1) \right] = \omega C_r [100+100] = 200 \omega C_r$
+
+For $\tan\delta$, we note that $\tan\delta = \frac{E''(\omega)}{E'(\omega)} = \frac{200 \omega C_r}{10C_r} = 20\omega$. Plotting this for angular frequencies ($\omega$) 0.001 to 1000 rad/s, we get the following.
+
+\includegraphics[scale=0.5]{Dawson-figures/3-3-b.png} \includegraphics[scale=0.5]{Dawson-figures/3-3-c.png}
+
+\bigskip
+\subsection*{3--4. \textbf{Fractional response} [4 pts].}
+For all of these problems, we start by getting the values of $\alpha$ based on the logistic distribution, with $\textrm{logit}(\alpha) = \log\left(\frac{\alpha}{1-\alpha} \right)$. To do this, we solve for $\alpha$ in this expression $\textrm{logit}(\alpha)=x$ for $x=-4,-3,-2,-1,0,1,2,3,4$.
+
+(a) For a step strain (assuming of height 1) we have the strain function $\varepsilon(t) = H(t)$.
+
+\includegraphics[scale=0.7]{Dawson-figures/3-4-a-strain.png} 
+
+Since this is a step strain, we can then find the stress by the expression $\sigma(t) = \varepsilon_0 G_r(t)$ with $\varepsilon_0=1$. The stress can be calculated using this expression for a range of $\alpha$.
+
+\includegraphics[scale=0.4]{Dawson-figures/3-4-a-stress.png} 
+
+(b) For a step stress of length $t=5$ (and once again assuming height of 1) we have the stress function $\sigma(t) = H(t)-H(t-5)$. 
+
+\includegraphics[scale=0.7]{Dawson-figures/3-4-b-stress.png} 
+
+To find the strain function, we note that $\bar{\varepsilon}(s) = s\bar{J_c}(s)\bar{\sigma}(s)$ and $\bar{G_r}(s)\bar{J_c}(s)=1/s^2$. The second expression can be rearranged to get $\bar{J_c}(s)=1/s^2\bar{G_r}(s)$ and combined with the first expression to give $\bar{\varepsilon}(s)=\frac{1}{s^2\bar{G_r}(s)}s\bar{\sigma}(s) = \frac{\bar{\sigma}(s)}{s\bar{G_r}(s)}$. So, we take Laplace transforms of the known stress function and relaxation function to get $\bar{\varepsilon}(s)$, then take the inverse Laplace transform to get $\varepsilon(t)$.
+
+\includegraphics[scale=0.5]{Dawson-figures/3-4-b-strain.png}
+
+(c) For a stress function that is a step stress (of height 1), the stress function is $\sigma(t) = H(t)$.
+
+\includegraphics[scale=0.7]{Dawson-figures/3-4-c-stress.png}
+
+We can then repeat the same steps as part b to get the strain.
+
+\includegraphics[scale=0.5]{Dawson-figures/3-4-c-strain.png}
+
+\bigskip
+\subsection*{3--5. \textbf{Rheology without a rheometer} [8 pts].}
+(a) We can get the energy dissipated by the ball directly from the initial and rebound heights. Before the drop, the ball has initial potential energy (which is also the total initial energy) $E_i = mgh=\rho Vg h_0$. After the rebound, the ball will have final potential energy at its rebound height (which is also the total final energy) $E_f=\rho Vg h$. This means the energy lost or dissipated was $E_d = E_f-E_i = \rho V gh-\rho Vgh_0 = \rho Vg(h-h_0)$. Then our energy per volume dissipated is $E_d/V = \rho g (h-h_0)$.
+
+\includegraphics[scale=0.5]{Dawson-figures/3-5-delE.png}
+\includegraphics[scale=0.5]{Dawson-figures/3-5-rebound.png}
+
+(b) The peak elastic energy stored is when the ball is most compressed. If we approximate the compression and rebound as part of a cyclic compression, this would be one quarter of the way through the full cycle. We can calculate the stored part of the work for this quarter cycle based on the area enclosed by the Lissajous plot based on the following expression.
+
+$W = \int_0^{\varepsilon_{max}}\sigma d\varepsilon = \int_0^{\pi/2\omega}\sigma(t) \frac{d\varepsilon}{dt} dt$
+
+Since we start our cycle at zero strain when the ball makes contact with the surface, strain is $\varepsilon(t) = \varepsilon_{max}\sin(\omega t) = B \sin(\omega t)$ and $\dot{\varepsilon}(t) = B\omega \cos(\omega t)$. The corresponding stress is $\sigma(t)=D\sin(\omega t+\delta)$. Since $\sigma(t)=E^*(\omega)\varepsilon(t)$ we can normalize the stress by dividing by $|E^*|$ to get $\sigma(t)=\varepsilon_0\sin(\omega t+\delta)=B\sin(\omega t+\delta)$. We can draw the Lissajous plot for this strain and stress as below.
+
+\includegraphics[scale=0.7]{Dawson-figures/3-5-lissajous.png}
+
+$W = \int_0^{\pi/2\omega}B\sin(\omega t+\delta) B\omega \cos(\omega t) dt = B^2\omega \int_0^{\pi/2\omega}\sin(\omega t+\delta)\cos(\omega t)dt$
+
+$W = B^2 \omega [\frac{1}{2\omega}\cos(\delta)+\frac{\pi}{4\omega}\sin{\delta}]=B^2 [\frac{1}{2}\cos(\delta)+\frac{\pi}{4}\sin{\delta}]$
+
+$W = \frac{1}{2}B^2 [\cos(\delta)+\frac{\pi}{2}\sin{\delta}]$
+
+In this expression for work, the first term gives us the stored energy in a quarter cycle and the second term gives the dissipated energy in a quarter cycle. Therefore, $W_s=\frac{1}{2}B^2\cos(\delta)$.
+
+(c) From part b, we have the energy dissipated in a quarter cycle. However, the rebound of the ball is a half cycle from strain of 0 to max strain then back to strain of 0. The ball will dissipate energy during this entire rebound process. Assuming that the energy dissipated during expansion is the same as compression, we can get the overall dissipated energy as twice the energy dissipated during a quarter cycle.
+
+$W_d = 2(\frac{\pi}{4}B^2\sin{\delta})=\frac{\pi}{2}B^2\sin{\delta}$
+
+(d) To get $\tan\delta$, we can compare the energy dissipation calculated from the area enclosed by the Lissajous plot and the rebound height of the ball.
+
+$\frac{W_d}{W_s}=\frac{\frac{\pi}{2}B^2\sin{\delta}}{\frac{1}{2}B^2\cos(\delta)}=\pi \tan\delta$
+
+We have the dissipated energy (per volume) $W_d=E_d$ from part a of this problem. For the stored energy, we make a rough approximation that the maximum stored energy is equal to the initial potential energy of the ball. This does ignore the energy dissipation from the compression of the ball in the first quarter cycle (which honestly feels like we shouldn't do that because that's half of the dissipated energy, but I suppose is fine as long as the initial potential energy is much greater than the overall energy dissipated by the ball). With this assumption, and once again using energy per volume, $W_s=E_s = \rho g h_0$.
+
+$\frac{W_d}{W_s}=\pi \tan\delta=\frac{E_d}{E_s} = \frac{\rho g (h-h_0)}{\rho g h_0}$
+
+$\tan\delta=\frac{h-h_0}{h_0} = 1-\frac{h}{h_0}$
+
+(e) If we consider the impact duration to be half of a cycle, then we can express the period as $T=2t_c$. Our frequencies will be $f=1/T=1/2t_c$. Using $t_c \approx 0.025R$ for balls from $R=1$mm$=10^{-3}$m to $R=1$m, this means we have measurements ranging over the following frequency range (and therefore that our material is calibrated over this range).
+
+$f_{max} = \frac{1}{2t_{c,min}}=\frac{1}{2*(0.025)(10^{-3})}=20000$ Hz
+
+$f_{min} = \frac{1}{2t_{c,max}}=\frac{1}{2*(0.025)(1)}=20$ Hz
+
+\end{document}
