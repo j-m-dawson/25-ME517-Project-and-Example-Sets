@@ -1,0 +1,281 @@
+\documentclass[preprint,12pt,authoryear]{elsarticle}
+\input{instr-preamble}
+\input{instr-mathsymbols}
+\journal{ME517---Mechanics of Soft Materials}
+\setlength{\marginparwidth}{2cm}
+\begin{document}
+
+\section*{Examples IV. 3D Time-dependent Behavior Examples}
+
+\medskip
+\subsection*{4--1. \textbf{Characterization with deflection history} [4 pts].} 
+
+To approach this question, we start from the analogous solution in linear elasticity (LE). Specifically, we start from the generalized beam loading solution for LE.
+
+$u_y(z)=\frac{ \hat{u}_y(z) }{E I_x}\phi_0$
+
+For uniform loading, the shape function is $\hat{u}_y(z)=\frac{z^4 - 2Lz^3 +L^3z}{24}$.
+
+$E$ in this equation is related to the relaxation constant $E_r(t)$. We can also write the generalized solution in terms of a LE term analogous to creep compliance as follows.
+
+$u_y(z)=\frac{ \hat{u}_y(z) }{I_x}E^{-1}\phi_0$
+
+Here, $E^{-1}$ is related to creep compliance $E_c^{-1}(t)$ or $J_c(t)$ in linear viscoelasticity (LVE).
+
+Using correspondence, we can get the complete analogous solution in LVE. Specifically, we bring the expression into the Laplace domain, substitute the force or loading term $\phi_0$ for the Laplace transform of a time-dependent version, and substitute the modulus for the Laplace transform of a time-dependent times s. This would also be the resulting expression from a convolution between the time-dependent force and modulus.
+
+$\bar{u}_y(z,s)=\frac{\hat{u}_y(z)}{I_x}\bar{\phi}(s) \cdot s \bar{E}_c^{-1}(s) = \frac{\hat{u}_y(z)}{I_x}\bar{\phi}(s) \cdot s \bar{J}_c(s)$
+
+Taking the Laplace transforms of the given loading and creep compliance functions.
+
+$\mathcal{L}\{J_c(t) \} = \frac{J_\infty}{s} + (J_0 -J_\infty)\frac{1}{s+1/\tau_c}$
+
+$\mathcal{L}\{\phi(t)\} = \mathcal{L}\{\phi_cH(t)\} = \phi_c/s$ \medskip (where $\phi_c = -3$ lb/ft, the constant in front of the step function)
+
+Putting these into our overall LVE expression.
+
+$\bar{u}_y(z,s)= \frac{\hat{u}_y(z)}{I_x} (\frac{\phi_c}{s}) \cdot s \left( \frac{J_\infty}{s} + (J_0 -J_\infty)\frac{1}{s+1/\tau_c} \right) = \frac{\hat{u}_y(z)}{I_x}\phi_c\left( \frac{J_\infty}{s} + (J_0 -J_\infty)\frac{1}{s+1/\tau_c} \right) = \frac{\hat{u}_y(z) \phi_c}{I_x}  \bar{J}_c(s)$
+
+We can then take the inverse Laplace transform to get the deformation as a function of time.
+
+$\mathcal{L}^{-1}\{ \bar{u}_y(z,s) \} = \frac{\hat{u}_y(z) \phi_c}{I_x}\mathcal{L}^{-1}\{ \bar{J}_c(s) \} = \frac{\hat{u}_y(z) \phi_c}{I_x} J_c(t) = \frac{\hat{u}_y(z) \phi_c}{I_x} \left( J_\infty + (J_0 - J_\infty)e^{-t/\tau_c} \right)$
+
+We are given three points in this expression, and therefore can solve the system of equations to get our three unknown material constants. In doing so, we also note that $ \lim_{t \to \infty} u_y(z,t) = \frac{\hat{u}_y(z) \phi_c}{I_x} J_\infty $. In addition, we set $z$ for all of these expressions to be $L/2$, since the middle of the beam will be the location of maximum deformation. We all convert all units into inches, minutes, and pounds, so that the units of the final solutions are consistent.
+
+So, we solve the system of equations for $u_y(L/2, 30)=-0.6$, $u_y(L/2, 60)=-0.75$, and $\lim_{t \to \infty}u_y(L/2, t) = -1.0$ using $I_x = 1$ in$^4$, $\phi_c = -3$ lb/ft $= -3/12$ lb/in, and $L = 4$ ft $= 48$ in.
+
+This gives us $J_\infty = 5.79 \times 10^{-5}$ in/lb, $J_0 = 2.08 \times 10^{-5}$ in/lb, and $\tau_c = 63.8$ min.
+
+\bigskip
+\subsection*{4--2. \textbf{Ramp up the torque} [4 pts].} 
+
+\includegraphics[scale=0.75]{Dawson-figures/4-2a2.png}
+
+In linear elasticity (LE), the equation relating angular displacement and torsion (torque applied) is $T_z = J_z \mu \frac{d\phi}{dz}$ with $J_z = \frac{\pi}{2}(R_o^4 - R_i^4) = \frac{\pi}{2}R^4$ for a solid cylindrical beam. Using correspondence, we can get the force/displacement relationship for LVE.
+
+$\bar{T}_z(z,s) = J_z s\bar{\mu}_r(s) \frac{d\bar{\phi}}{dz}(z,s)$
+
+Solving for the derivative of the angular displacement and then substituting $s\bar{\mu}_c^{-1}(s) = 1/s\bar{\mu}_r(s)$.
+
+$\frac{d\bar{\phi}}{dz}(z,s) = \bar{T}_z(z,s) \frac{1}{J_z s \bar{\mu}_r(s)} = \bar{T}_z(z,s) \frac{s\bar{\mu}_c^{-1}(s)}{J_z}$
+
+Then, to get a function for the angular displacement, we integrate along the length of the rod from $z=0$ to $z$.
+
+$\int_{0}^{z} \frac{d\bar{\phi}}{dz}(z,s) dz = \frac{s\bar{\mu}_c^{-1}(s)}{J_z} \int_{0}^{z}\bar{T}_z(z,s)dz $
+
+To get $\bar{T_z}(z,s)$, we do static analysis of the beam where the overall sum of the moments is zero. Since the only moments are from torsion, we therefore have that the sum of the torsions for both the entire beam and any cut plane of the beam is zero. For the full beam, this gives us that $T_A = -T_B$. Here, $T_A$ is the torsion/torque at the fixed end A of the rod and $T_B$ is the torsion/torque applied at the end B of the rod.
+
+\includegraphics[scale = 0.9]{Dawson-figures/4-2b.png}
+\includegraphics[]{Dawson-figures/4-2c.png}
+
+For each cut plane of the beam, we solve $\sum M(cut) = T_A + M_z(z) = 0$ with $T_A = -T_B$ to get $M_z(z) = T_B$.
+
+This means that our $T_z = T_B$ is the same across the entire rod. Since $\bar{T_z}(z,s)$ maintains the same value across the entire rod, $\bar{T_z}(z,s)$ is a constant with respect to $z$. That is, we can just write $\bar{T_z}(z,s) = \bar{T_z}(s)$ and evaluate the integral.
+
+$\bar{\phi}(z,s) = \frac{s\bar{\mu}_c^{-1}(s)}{J_z} \bar{T}_z(s) z$
+
+For this rod, the torque experienced as a function of time is $T_z(t) = P_0 \alpha t$. This means that $\bar{T}_z(s) = P_0 \alpha/s^2$. This gives us an expression for angular displacement in the Laplace domain as follows.
+
+$\bar{\phi}(z,s) = \frac{s\bar{\mu}_c^{-1}(s)}{J_z}z\frac{P_0 \alpha}{s^2} = \frac{P_0\alpha}{J_z} \frac{\bar{\mu}_c^{-1}(s) } {s} z$
+
+We take the inverse Laplace transform.
+
+$\phi(z,t) = \frac{P_0 \alpha z}{J_z} \mathcal{L} \{ \frac{\bar{\mu}_c^{-1}(s) } {s} \} = \frac{P_0 \alpha z}{J_z} \int_0^t \mu_c^{-1}(\tau)d\tau$
+
+We want the displacement at the end of the rod, which is $z=L$. So for length $L$ and radius $R$ such that $J_z = \frac{\pi}{2}R^2$, we get the following.
+
+$\phi(L,t) = P_0 \alpha L \left( \frac{1}{\frac{\pi}{2}R^2} \right) \int_0^t \mu_c^{-1}(\tau)d\tau$
+
+For an angular rotation as a function of time at the end of the rod as follows.
+
+$\phi(t) = \frac{2P_0 \alpha L}{\pi R^2} \int_0^t \mu_c^{-1}(\tau)d\tau$
+
+\bigskip
+\subsection*{4--3. \textbf{L-shaped beam} [4 pts].}
+Drawing a free-body diagram for the entire system (that includes the two beam sections AB and BC) we get the following.
+
+\includegraphics[]{Dawson-figures/4-3a.png}
+
+a) Deflection
+
+Deflection of the end of this rod is due to the bending deflection of sections AB and BC, as well as the angular rotation due to torsion on and around section AB. 
+
+For the bending deflection, we can start at the LE expression for the deflection at the end of a cantilevered beam. This is the maximum deflection of a cantilevered beam.
+
+$u_{y,max} = \frac{F L^3}{3 E I} = \frac{F L^3}{3 I}E_c^{-1}$
+
+In this expression, $I$ is the moment of inertia, $I_x = \frac{\pi D^4}{64} = \frac{\pi R^4}{4}$ for a cylindrical beam. Using correspondence, we get the following for LVE.
+
+$\bar{u}_y(s) = \frac{\bar{F}(s)L^3}{3I} s\bar{E}_c^{-1}$
+
+Taking the inverse Laplace transform to get the bending deflection as a function of time. This gives us the inverse Laplace transform of a convolution of our loading function and the time derivative of the modulus function. Note that $\mathcal{L} \{ \frac{d}{dt}f(t) \} = sF(s)-f(0)$ and $\mathcal{L} \{ (f *g)(t) \} = F(s) \cdot G(s)$.
+
+$u_y(t) = \frac{L^3}{3I} \mathcal{L}^{-1} \{ s \bar{E}_c^{-1}(s)F(s) \} = \frac{4L^3}{3\pi R^4}F(t)*\frac{d E_c^{-1}(t)}{dt} $
+
+$u_y(t) = \frac{4L^3}{3\pi R^4}F(t)*\dot{E}_c^{-1}(t)$
+
+For this relationship, the applied force over time is $F(t)$ applied at point C.
+
+For the deflection due to torsion, we can use the same relationship between deflection and torsion in the Laplace domain we got in question 2. 
+
+$\bar{\phi}(z,s) dz = \frac{s\bar{\mu}_c^{-1}(s)}{J_z} \int_{0}^{z}\bar{T}_z(z,s)dz = \frac{s\bar{\mu}_c^{-1}(s)}{J_z} z\bar{T}_z(s)$
+
+For the end of the rod at $z=L$ we sub $z$ for $L$.
+
+$\bar{\phi}(L,s) dz = \frac{s\bar{\mu}_c^{-1}(s)}{J_z}\bar{T}_z(s)L = \frac{L}{J_z}s\bar{\mu}_c^{-1}(s)\bar{T}_z(s)$
+
+Taking the inverse Laplace transform, we get the following relationship.
+
+$\phi(t) = \frac{L}{J_z}T_z(t)*\dot{\mu}_c^{-1}(t)$
+
+Then, our torsion/torque is the applied force $F(t)$ at a distance $L$ for $T_z(t) = LF(t)$. Substituting this, we can get a relationship in terms of the applied force.
+
+$\phi(t) = \frac{L^2}{J_z}F(t)*\dot{\mu}_c^{-1}(t)$
+
+To get the deflection from this angular deflection, we use the arc length relationship $s=\theta r$ for a radius of length $L$ that we are bending around. This gives an angular deflection of $u_{y,torsion}(t) = L \left[ \frac{L^2}{J_z}F(t)*\dot{\mu}_c^{-1}(t) \right]$
+
+\includegraphics[]{Dawson-figures/4-3c.png}
+
+From applying the bending deflection twice (once for AB and once for BC) and the torsional deflection once (only torsion around AB) we get an overall deflection for point C as follows.
+
+$C = 2 \left[ \frac{4L^3}{3\pi R^4}F(t)*\dot{E}_c^{-1}(t) \right] + L \left[ \frac{L^2}{J_z}F(t)*\dot{\mu}_c^{-1}(t) \right]$
+
+$C = \frac{8L^3}{3\pi R^4}F(t)*\dot{E}_c^{-1}(t) + \frac{L^3}{J_z}F(t)*\dot{\mu}_c^{-1}(t)$
+
+b) Stress at point A
+
+We can start with static analysis on the beam to get the relevant forces and moments. Specifically, we can make a cut plane at the point of interest A and evaluate the forces and moments acting there. For the labeled forces, $V_y = -F$, $V_x = 0$, $F_z = 0$. For the labeled moments, $T_z = FL$, $M_y = 0$, $M_x = -FL$.
+
+\includegraphics[]{Dawson-figures/4-3b.png}
+
+From balance of forces, $\sum \bm{F} = 0 = (F+V_y) \bm{e}_y + (V_x + F_z)\bm{e}_x$. This gives us $V_y = -F$.
+
+From balance of moments, $\sum \bm{M} = 0 = -T_z\bm{e}_z - M_x\bm{e}_x + M_y\bm{e}_y + \bm{r} \times \bm{F}$. The torque from the applied force $\bm{r} \times \bm{F} = FL\bm{e}_z - FL \bm{e}_x$. This gives us$\sum \bm{M} = 0 = (FL-T_z)\bm{e}_z + M_y \bm{e}_y - (M_x + FL)\bm{e}_x$. This gives us $T_z = FL$ and $M_x = -FL$.
+
+Overall, the forces on point A are $T_z = FL$, $M_x = -FL$, and $V_y = -F$. We ignore the surface force $V_y$ in calculating the stress.
+
+The stress from bending moment is $\sigma = \frac{My}{I}$ and the stress from torsion is $\tau = \frac{Tr}{J}$.
+
+For this specific beam, $\sigma_{zz} = \frac{-M_xy}{I_{xx}} = \frac{FLR}{(\pi/4)R^4} = \frac{4FL}{\pi R^3}$. The moment of inertia used was $I_{xx} = \frac{\pi}{4}R^4$ for a cylindrical beam. We also get $\tau_{zx} = \sigma_{zx} = \frac{(FL)R}{(\pi/2)R^4} = \frac{2FL}{\pi R^3}$. The second polar moment of inertia used was $J = I_p = \frac{\pi}{2}R^4$.
+
+This gives an overall stress tensor as follows, noting that the stress tensor has to be symmetric across the diagonal.
+
+\begin{equation}
+\bm{\sigma} = \begin{bmatrix}
+0 & 0  & \frac{2FL}{\pi R^3} \\ 0 & 0 & 0 \\ \frac{2FL}{\pi R^3} & 0 & \frac{4FL}{\pi R^3}
+\end{bmatrix}
+\end{equation}
+
+\bigskip
+\subsection*{4--4. \textbf{Fibrous material} [4 pts].}
+
+a) Objectivity
+
+If objectivity holds, a transformation of $\bn{F} \to \bn{QF}$ should not change the free energy function. That is, $\widetilde{\psi}(\bn{QF}) = \widetilde{\psi}(\bn{F})$. Since the free energy is a function of invariants $I_1$ and $I_a$, confirming that the invariants do not change with this transformation is sufficient to demonstrate that objectivity holds.
+
+For the first invariant $I_1(\bn{F}) = \textrm{tr}(\bn{C}) = \textrm{tr}(\bn{F}^T\bn{F})$. Substituting $\bn{F} \to \bn{QF}$ gives us $I_1(\bn{QF}) = \textrm{tr}[(\bn{QF})^T(\bn{QF})] = \textrm{tr}[\bn{F}^T\bn{Q}^T\bn{QF}]$. Since the rotation tensor $\bn{Q}$ is proper orthogonal, the transpose is the same as the inverse $\bn{Q}^T=\bn{Q}^{-1}$ so $\bn{Q}^T\bn{Q} = \bn{I}$. This gives $I_1(\bn{QF}) = \textrm{tr}[\bn{F}^T\bn{I}\bn{F}] = \textrm{tr}[\bn{F}^T\bn{F}] = I_1(\bn{F})$.
+
+For the other invariant $I_a(\bn{F},\hat{\bm{a}}_0) = \hat{\bm{a}}_0 \cdot \bn{C} \hat{\bm{a}}_0 = \hat{\bm{a}}_0 \cdot \bn{F}^T\bn{F} \hat{\bm{a}}_0$. Substituting $\bn{F} \to \bn{QF}$ gives us $I_a(\bn{QF},\hat{\bm{a}}_0) = \hat{\bm{a}}_0 \cdot (\bn{QF})^T(\bn{QF}) \hat{\bm{a}}_0$. Once again, since $\bn{Q}$ is proper orthogonal, $\bn{Q}^T\bn{Q} = \bn{I}$. This gives us $I_a(\bn{QF},\hat{\bm{a}}_0) = \hat{\bm{a}}_0 \cdot \bn{F}^T\bn{Q}^T(\bn{QF}) \hat{\bm{a}}_0 = \hat{\bm{a}}_0 \cdot \bn{F}^T\bn{IF}) \hat{\bm{a}}_0 = \hat{\bm{a}}_0 \cdot \bn{F}^T\bn{F}) \hat{\bm{a}}_0 = I_a(\bn{F},\hat{\bm{a}}_0)$.
+
+Since both $I_1(\bn{QF})=I_1(\bn{F})$ and $I_a(\bn{QF},\hat{\bm{a}}_0) = I_a(\bn{F},\hat{\bm{a}}_0)$ and the free energy is a function of these two invariants, this means that $\widetilde{\psi}(\bn{QF}) = \widetilde{\psi}(\bn{F})$ as well. Therefore, objectivity is satisfied.
+
+b) Material symmetry
+
+If material symmetry is satisfied, then $\widetilde{\psi}(\bn{FH}) = \widetilde{\psi}(\bn{F})$. Once again, we can look at the invariants.
+
+For the first invariant $I_1(\bn{FH}) = \textrm{tr}[(\bn{FH})^T(\bn{FH})] = \textrm{tr}[(\bn{H}^T\bn{F}^T(\bn{FH})]$. In this expression, we rotate and then unrotate the $(\bn{F}^T\bn{F})$ term, leading to this expression being equal to $I_1(\bn{F}) = \textrm{tr}[(\bn{F})^T(\bn{F})]$. Alternatively, we can note that the first invariant is $I_1 = \lambda_1^2 + \lambda_2^2 + \lambda_3^2$. Since the first invariant is a function of the principle stretches, it will be isotropic and therefore this invariant will be the same for any rotations, which includes the set $\bn{H}$.
+
+For the other invariant $I_a(\bn{FH},\hat{\bm{a}}_0) = \hat{\bm{a}}_0 \cdot (\bn{FH})^T\bn{FH} \hat{\bm{a}}_0 = \hat{\bm{a}}_0 \cdot \bn{H}^T\bn{F}^T\bn{FH} \hat{\bm{a}}_0$. Using that $\bn{H}\hat{\bm{a}}_0 = \hat{\bm{a}}_0$ we get $I_a(\bn{FH},\hat{\bm{a}}_0) = \hat{\bm{a}}_0 \cdot \bn{H}^T\bn{F}^T\bn{F} \hat{\bm{a}}_0$. Then, we can multiply both sides of our expression $\bn{H}\hat{\bm{a}}_0 = \hat{\bm{a}}_0$ by $\bn{H}^T$ to get $\bn{H}\hat{\bm{a}}_0\bn{H}^T = \hat{\bm{a}}_0\bn{H}^T$. Since the left side operations will rotate and then unrotate the vector $\hat{\bm{a}}_0$, the left hand side is also equal to $\hat{\bm{a}}_0$ and we can therefore write $\hat{\bm{a}}_0 = \hat{\bm{a}}_0\bn{H}^T$. Substituting this into our expression for the invarient gives $I_a(\bn{FH},\hat{\bm{a}}_0) = \hat{\bm{a}}_0 \bn{F}^T\bn{F} \hat{\bm{a}}_0 = I_a(\bn{F},\hat{\bm{a}}_0)$.
+
+Since both $I_1(\bn{FH}) = I_1(\bn{F})$ and $I_a(\bn{FH},\hat{\bm{a}}_0) = I_a(\bn{F},\hat{\bm{a}}_0)$, this means that $\widetilde{\psi}(\bn{FH}) = \widetilde{\psi}(\bn{F})$ as well. Therefore, the given set of tensors $\bn{H}$ is a material symmetry group for this material.
+
+c) Stress expressions
+
+The given free energy is a function of $\bn{C}$, so we can start most easily by calculating the second Piola-Kirchhoff stress $\bn{S}$.
+
+$\bn{S} = 2 \left[ (\frac{\partial \psi}{\partial I_1} + I_1\frac{\partial \psi}{\partial I_2})\bn{I} - \frac{\partial \psi}{\partial I_2}\bn{C} +I_3\frac{\partial \psi}{\partial I_3}\bn{C}^{-1} + \frac{\partial \psi}{\partial I_4} \bm{a}_0 \otimes \bm{a}_0 + \frac{\partial \psi}{\partial I_5} (\bm{a}_0 \otimes \bn{C}\bm{a}_0 + \bm{a}_0\bn{C}\otimes \bm{a}_0)\right]$
+
+We have an expression for the free energy $\widetilde{\psi}(\bn{F})$ that is a function of $I_1$ and $I_a = I_4$.
+
+$\bn{S} = 2 \frac{\partial \psi}{\partial \bn{C}} = 2 \sum_{i=1}^{5} \frac{\partial \psi}{\partial I_i} \frac{\partial I_i}{\partial \bn{C}}$
+
+We can take each of these partial derivatives.
+
+$\frac{\partial \psi}{\partial I_1} = \frac{1}{2}C_{10}$
+
+$\frac{\partial \psi}{\partial I_4} = \frac{\partial \psi}{\partial I_a} = \frac{1}{4}k \cdot 2(I_a-1) = \frac{1}{2}k(I_a-1)$
+
+$\frac{\partial I_1}{\partial \bn{C}} = \frac{\partial}{\partial \bn{C}} \textrm{tr}\bn{C} = \bn{I}$
+
+$\frac{\partial I_4}{\partial \bn{C}} = \frac{\partial I_a}{\partial \bn{C}} = \frac{\partial}{\partial \bn{C}} (\hat{\bm{a}}_0 \cdot \bn{C} \hat{\bm{a}}_0) =\hat{\bm{a}}_0 \otimes \hat{\bm{a}}_0 $
+
+This gives us an overall stress as follows.
+
+$\bn{S} = 2 \left[ \frac{C_{10}}{2}\bn{I} + \frac{k(I_a-1)}{2} \hat{\bm{a}}_0 \otimes \hat{\bm{a}}_0 \right]$
+
+Then we can calculate the first Piola-Kirchhoff stress using $\bn{P} = \bn{FS}$. 
+
+$\bn{P} = 2\bn{F} \left[ \frac{C_{10}}{2}\bn{I} + \frac{k(I_a-1)}{2} \hat{\bm{a}}_0 \otimes \hat{\bm{a}}_0 \right]$
+
+$\bn{P} = C_{10}\bn{F} + k(I_a-1)\bn{F}\hat{\bm{a}}_0 \otimes \hat{\bm{a}}_0$
+
+We can calculate the Cauchy stress using $\bn{\sigma} = \frac{1}{J}\bn{FSF}^T$.
+
+$\bn{\sigma} = \frac{2}{J}\bn{F} \left[ \frac{C_{10}}{2}\bn{I} + \frac{k(I_a-1)}{2} \hat{\bm{a}}_0 \otimes \hat{\bm{a}}_0 \right] \bn{F}^T$
+
+$\bn{\sigma} = \frac{C_{10}}{J}\bn{C} + \frac{k(I_a -1)}{2}\bn{F}(\hat{\bm{a}}_0 \otimes \hat{\bm{a}}_0)\bn{F}^T$
+
+\bigskip
+\subsection*{4--5. \textbf{Gent model of rubber elasticity} [4 pts].}
+
+a) Cauchy stress
+
+We can use the following expression for Cauchy stress.
+
+$\bn{\sigma} = 2J^{-1} \left[ I_3\frac{\partial \psi}{\partial I_3}\bn{I} + (\frac{\partial \psi}{\partial I_1}+I_1\frac{\partial \psi}{\partial I_2})\bn{B} - \frac{\partial \psi}{\partial I_2}\bn{B}^2 + I_4 \frac{\partial \psi}{\partial I_4} \bm{a}\otimes\bm{a} + I_4 \frac{\partial \psi}{\partial I_5}(\bm{a}\otimes\bn{B}\bm{a}+\bm{a}\bn{B}\otimes\bm{a}) \right]$
+
+This free energy function is a function of $I_1$ and $I_2$, so derivatives of the other invariants are each zero.
+
+$\bn{\sigma} = 2J^{-1} \left[(\frac{\partial \psi}{\partial I_1} + I_1\frac{\partial \psi}{\partial I_2})\bn{B} - \frac{\partial \psi}{\partial I_2}\bn{B}^2 \right]$
+
+We can take each of the necessary derivatives.
+
+$\frac{\partial \psi}{\partial I_1} = \frac{-C_{10}J_m}{2}(\frac{J_m}{J_m(J_m - I_1 +3)}) = \frac{J_mC_{10}}{2(J_m - I_1 + 3)}$
+
+$\frac{\partial \psi}{\partial I_2} = \frac{C_{01}}{I_2}$
+
+This gives us a stress function as follows.
+
+$\bn{\sigma} = 2J^{-1} \left[  (\frac{C_{10}J_m}{2(J_m-I_1+3)}+I_1\frac{C_{01}}{I_2})\bn{B} -\frac{C_{01}}{I_2}\bn{B}^2 \right]$
+
+We use the Cayley-Hamilton theorem $\bn{B}^2 = I_1 \bn{B} - I_2 \bn{I} + I_3 \bn{B}^{-1}$ to substitute for $\bn{B}^2$.
+
+$\bn{\sigma} = 2J^{-1} \left[  \frac{C_{10}J_m}{2(J_m-I_1+3)}\bn{B}  + I_1\frac{C_{01}}{I_2}\bn{B} -\frac{C_{01}}{I_2}(I_1 \bn{B} - I_2 \bn{I} + I_3 \bn{B}^{-1})) \right]$
+
+$\bn{\sigma} = 2J^{-1} \left[  \bn{B}(\frac{C_{10}J_m}{2(J_m-I_1+3)} + \frac{I_1 C_{01}}{I_2} - \frac{I_1 C_{01}}{I_2}) + C_{01}\bn{I} - \frac{C_{01}I_3}{I_2}\bn{B}^{-1}\right]$
+
+$\bn{\sigma} = 2J^{-1} \left[  \bn{B}\frac{C_{10}J_m}{2(J_m-I_1+3)} + C_{01}\bn{I} - \frac{C_{01}I_3}{I_2}\bn{B}^{-1}\right]$
+
+The material is isochoric, so there is no change in volume and $J = \lambda_1\lambda_2\lambda_3=1$. Therefore, $I_3 = \lambda_1^2\lambda_2^2\lambda_3^2 = J^2 = 1$ as well. Substituting $J=1$ and $I_3 = 1$ we get the following.
+
+$\bn{\sigma} = \frac{2C_{01}}{J}\bn{I} + \frac{C_{10}J_mJ^{-1}}{J_m - (I_1-3)}\bn{B} - \frac{2C_{01}I_3}{I_2J}\bn{B}^{-1}$
+
+$\bn{\sigma} = 2C_{01}\bn{I} + \frac{C_{10}J_m}{J_m - (I_1-3)}\bn{B} - \frac{2C_{01}}{I_2}\bn{B}^{-1}$
+
+We can rename the constant in front of $\bn{I}$ as $p$ to get a final stress expression as follows.
+
+$\bn{\sigma} = p\bn{I} + \frac{C_{10}J_m}{J_m - (I_1 - 3)}\bn{B} - \frac{2C_{01}}{I_2}\bn{B}^{-1}$
+
+b) Simple shear
+
+According to simple shear, $\bn{\sigma} = -p\bn{I} + \beta_1(\gamma^2)\bn{B} + \beta_{-1}(\gamma^2)\bn{B}^{-1}$ with $I_1(\bn{B}) = 3 + \gamma^2$, $I_2(\bn{B}) = 3 + \gamma^2$, and $I_3(\bn{B}) = 1$.
+
+So then for our Cauchy stress expression, we have that $\beta_1(\gamma^2) = \frac{C_{10}J_m}{J_m - (I_1-3)}$ and $\beta_{-1}(\gamma^2) = \frac{-2C_{01}}{I_2}$.
+
+Using the given expression for the shear modulus $\mu(\gamma^2) = \beta_1(\gamma^2) - \beta_{-1} (\gamma^2)$ we can get $\mu(\gamma^2) =\frac{C_{10}J_m}{J_m - (I_1-3)} + \frac{2C_{01}}{I_2}$.
+
+In the limit as $\gamma \to 0$, we get that $\lim_{\gamma \to 0}I_1 = 3$, $\lim_{\gamma \to 0}I_2 = 3$, and $\lim_{\gamma \to 0}I_3 = 1$. Since these are all the $\gamma$ dependent terms in $\mu$, we can then evaluate the limit of the shear modulus as follows.
+
+$\lim_{\gamma \to 0}\mu(\gamma^2) = \frac{C_{10}J_m}{J_m - (3-3)}+\frac{2C_{01}}{3} = C_{10}+\frac{2C_{01}}{3} $
+
+\end{document}
